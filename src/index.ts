@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import profileRoutes from './routes/profile.js';
+import { prisma } from './config/database.js';
 
 // Load environment variables
 dotenv.config();
@@ -12,6 +14,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/profile', profileRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
@@ -26,6 +31,13 @@ app.get('/health', (req, res) => {
 // Start server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...');
+  await prisma.$disconnect();
+  process.exit(0);
 });
 
 export default app; 
