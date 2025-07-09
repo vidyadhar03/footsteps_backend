@@ -1,5 +1,5 @@
-import { PrismaClient } from '../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 export declare const prisma: PrismaClient<{
     log: ("info" | "query" | "warn" | "error")[];
-}, never, import("../generated/prisma/runtime/library").DefaultArgs>;
+}, never, import("@prisma/client/runtime/library").DefaultArgs>;
 //# sourceMappingURL=database.d.ts.map
