@@ -1,23 +1,25 @@
-import express from 'express';
-import cors from 'cors';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-const app = express();
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
-// Basic test routes
-app.get('/', (req, res) => {
-  res.json({ message: 'Footsteps Backend API is running!' });
-});
+  const { url } = req;
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-app.get('/profile', (req, res) => {
-  res.status(401).json({ error: 'Missing or invalid authorization header' });
-});
-
-export default app; 
+  if (url === '/' || url === '/api') {
+    res.status(200).json({ message: 'Footsteps Backend API is running!' });
+  } else if (url === '/health' || url === '/api/health') {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  } else if (url === '/profile' || url === '/api/profile') {
+    res.status(401).json({ error: 'Missing or invalid authorization header' });
+  } else {
+    res.status(404).json({ error: 'Not found' });
+  }
+} 
