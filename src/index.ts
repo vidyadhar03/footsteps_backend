@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import profileRoutes from './routes/profile.js';
-import { prisma } from './config/database.js';
+import profileRoutes from './routes/profile';
+import { prisma } from './config/database';
 
 // Load environment variables
 dotenv.config();
@@ -42,4 +42,5 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+module.exports = app;
 export default app; 

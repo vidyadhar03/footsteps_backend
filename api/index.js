@@ -1,3 +1,5 @@
-import app from '../dist/index.js';
+const app = require('../dist/index.js').default;
 
-export default app; 
+module.exports = async (req, res) => {
+  return app(req, res);
+}; 
