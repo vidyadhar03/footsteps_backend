@@ -42,5 +42,5 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-module.exports = app;
+// Export for serverless
 export default app; 
